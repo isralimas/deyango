@@ -12,13 +12,15 @@ class ProducAdmin(admin.ModelAdmin):
         }),
         ('Descripcion del producto', {
             'classes': ('collapse',),
-            'description': ('Captura los datos del producto',),
+            'description': 'Captura los datos del producto',
             'fields': ('precio', 'cantidad', 'categoria')
         }),
 	)
     list_display = ('nombre', 'id', 'precio')
 
     list_editable = ('precio',)
+
+    list_filter = ('categoria',)
 
     search_fields = ('nombre',)
    
