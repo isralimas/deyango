@@ -16,7 +16,7 @@ class Producto(models.Model):
 	categoria = models.ForeignKey('Categoria')
 	cantidad = models.IntegerField()
 	def __unicode__(self):
-			return str(self.id) + self.nombre + str(self.precio)
+			return str(self.id) + ' ' + self.nombre + ' ' + str(self.precio)
 
 
 class UnidadPresentacion(models.Model):
@@ -24,7 +24,7 @@ class UnidadPresentacion(models.Model):
 	unidmedida = models.CharField('Unidad de medida', max_length=20, choices=unidadesDmedida)
 	cantidad = models.FloatField()
 	def __unicode__(self):
-		return str(self.id) + self.descripcion + str(self.cantidad)
+		return str(self.id) + ' ' + self.descripcion + ' ' + str(self.cantidad)
 
 
 class Proveedore(models.Model):
@@ -34,17 +34,17 @@ class Proveedore(models.Model):
 	telefono = models.CharField('Teléfono', max_length=30, default='55', null=True)
 	contacto = models.CharField(max_length=50, choices=proveedores)
 	email = models.CharField(max_length=40, null=True)
-	productos = models.ManyToManyField('Producto')
+	productos = models.ManyToManyField('MateriaPrima', related_name="proveedore_materia_prima")
 	def __unicode__(self):
 		return self.razonsocial
 
 class MateriaPrima(models.Model):
 	descripcion = models.TextField()
 	costo = models.FloatField()
-	claveproveedor = models.ForeignKey('Proveedore')
-	clavepresentacion = models.ForeignKey('Unidadpresentacion')
+	existencia = models.FloatField()
+	clavepresentacion = models.ForeignKey('UnidadPresentacion')
 	def __unicode__(self):
-		return str(self.id) + self.descripcion + str(self.costo)
+		return str(self.id) + ' ' + self.descripcion + ' ' + str(self.costo)
 
 
 class Cliente(models.Model):
@@ -56,7 +56,7 @@ class Cliente(models.Model):
 	telefono = models.CharField(max_length=30)
 	email = models.CharField(max_length=40)	
 	def __unicode__(self):
-		return str(self.id) + self.nombre
+		return str(self.id) + ' ' + self.nombre
 
 class Venta(models.Model):
 	fecha = models.DateTimeField(auto_now_add=True)
@@ -67,21 +67,20 @@ class Venta(models.Model):
 	total = models.FloatField()
 	cantidad = models.IntegerField()
 	def __unicode__(self):
-		return str(self.id) + self.claveproducto.nombre +str(self.subtotal)+str(self.iva)+str(self.total)+str(self.cantidad)
+		return str(self.id) + ' ' + self.claveproducto.nombre + ' ' +str(self.subtotal) + ' '+str(self.iva) + ' '+str(self.total) + ' '+str(self.cantidad)
 
 class VentasProducto(models.Model):
 	claveproducto = models.ForeignKey("Producto")
 	cantidad = models.IntegerField()
 	def __unicode__(self):
-		return str(self.id) + self.claveproducto.nombre + str(self.cantidad)
+		return str(self.id) + ' ' + self.claveproducto.nombre + ' ' + str(self.cantidad)
 
 
 class Receta(models.Model):
 	claveproducto = models.ForeignKey("Producto")
-	clavemateriaprima = models.ForeignKey("Materiaprima")
+	clavemateriaprima = models.ManyToManyField("MateriaPrima")
 	cantidad= models.FloatField()
 	def __unicode__(self):
-		return str(self.id) + self.claveproducto.nombre + self.clavemateriaprima.descripcion					
-
+		return str(self.id) + ' ' + self.claveproducto.nombre
 
 

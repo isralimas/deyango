@@ -3,7 +3,11 @@ from django.contrib import admin
 from models import *
 
 class ProveedAdmin(admin.ModelAdmin):
-	filter_horizontal = ['productos']
+    filter_horizontal = ['productos']
+
+    list_filter = ('productos',)
+class RecetAdmin(admin.ModelAdmin):
+    filter_horizontal = ['clavemateriaprima']
 
 class ProducAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -32,7 +36,7 @@ admin.site.register(MateriaPrima)
 admin.site.register(Cliente)
 admin.site.register(Venta)
 admin.site.register(VentasProducto)
-admin.site.register(Receta)
+admin.site.register(Receta, RecetAdmin)
 
 
 

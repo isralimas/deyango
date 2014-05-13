@@ -16,4 +16,5 @@ unidadesDmedida = (
 	('hrs', 'horas'),
 	('bx', 'cajón'),
 	('cs', 'costal'),
+	('pz', 'pieza')
 )
